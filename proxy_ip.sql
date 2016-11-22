@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS `dy_proxy`;
+DROP TABLE IF EXISTS `proxy_ip`;
 CREATE TABLE `proxy_ip` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(15) NOT NULL,
