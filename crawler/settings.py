@@ -75,6 +75,6 @@ LOG_FILE = "scrapy.log"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0'
-# 优化爬虫，防止被禁：每次只能对每个域名发起一次请求且请求之间存在5s延时
+# 优化爬虫，防止被禁：每次只能对每个域名发起一次请求且请求之间存在2s延时
 CONCURRENT_REQUESTS_PER_DOMAIN = 1
 DOWNLOAD_DELAY = 2
