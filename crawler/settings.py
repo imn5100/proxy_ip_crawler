@@ -13,13 +13,14 @@ BOT_NAME = 'crawler'
 
 SPIDER_MODULES = ['crawler.spiders']
 NEWSPIDER_MODULE = 'crawler.spiders'
-# 存储模式 mysql 或 sqlite
+# 存储模式 mysql || sqlite || json
 SAVE_MODE = 'sqlite'
 # MySQL配置
 MYSQL_CONNECT = {'db': 'test', 'user': 'shaw', 'passwd': 'xlsw%',
                  'host': '127.0.0.1', 'use_unicode': True, 'charset': 'utf8'}
 # sqlite文件配置
-SQLITE_FILE = 'ip.dat'
+SQLITE_FILE = 'proxy_ip.dat'
+JSON_FILE = 'proxy_ip.json'
 
 # Override the default request headers:
 # DEFAULT_REQUEST_HEADERS = {
