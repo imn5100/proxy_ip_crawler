@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from crawler.items import CrawlerItem
 from crawler.sqliteClient.sqliteOperator import Table
 
 
@@ -18,13 +19,13 @@ class IPProxy(Table):
         cursor = super(IPProxy, self).select(*args, **kwargs)
         results = cursor.fetchall()
         cursor.close()
-        return results
+        return IPProxy.convert(results)
 
     def select_all(self, *args, **kwargs):
         cursor = super(IPProxy, self).select_all(*args, **kwargs)
         results = cursor.fetchall()
         cursor.close()
-        return results
+        return IPProxy.convert(results)
 
     '''当只有一个参数时，默认为插入的是对象，从对象中取值'''
 
@@ -49,13 +50,30 @@ class IPProxy(Table):
     def drop(self):
         self.free(super(IPProxy, self).drop())
 
+    @staticmethod
+    def convert(result):
+        ip_list = []
+        for tu in result:
+            if len(tu) < 7:
+                continue
+            item = CrawlerItem()
+            item['ip'] = tu[1]
+            item['port'] = tu[2]
+            item['position'] = tu[3]
+            item['http_type'] = tu[4]
+            item['speed'] = tu[5]
+            item['connect_time'] = tu[6]
+            item['check_time'] = tu[7]
+            ip_list.append(item)
+        return ip_list
+
 
 if __name__ == '__main__':
-    #构造方法参数为存储的sqlite文件
+    # 构造方法参数为存储的sqlite文件
     ipproxy = IPProxy("/Project/mygit/myCrawler/proxy_ip_crawler/proxy_ip.dat")
-    #查询所有代理ip记录
+    # 查询所有代理ip记录
     for data in ipproxy.select_all('*'):
         print (data[1] + ":" + data[2] + " position:" + data[3])
-    #删除sqlite中所有记录
+    # 删除sqlite中所有记录
     # ipproxy.delete_all();
     ipproxy.disconnect()

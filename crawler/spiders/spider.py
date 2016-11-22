@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from crawler.items import CrawlerItem
+from crawler.spiders import ProxyCheck
+from crawler.sqliteClient import IPProxy
 
 
 class ProxyIpSpider(scrapy.Spider):
@@ -37,5 +39,4 @@ class ProxyIpSpider(scrapy.Spider):
             item['check_time'] = tr.xpath('td[10]/text()')[0].extract()
 
             items.append(item)
-
-        return items
+        return ProxyCheck.checkIpList(items, 10)
