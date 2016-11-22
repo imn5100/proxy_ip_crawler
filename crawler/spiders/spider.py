@@ -2,6 +2,7 @@
 import scrapy
 from crawler.items import CrawlerItem
 
+
 class ProxyIpSpider(scrapy.Spider):
     name = "proxy_ip"
     allowed_domains = ["xicidaili.com"]
@@ -12,9 +13,9 @@ class ProxyIpSpider(scrapy.Spider):
     def start_requests(self):
         '''需爬取的链接'''
         reqs = []
-
-        for i in range(1,2):
-            req = scrapy.Request("http://www.xicidaili.com/nn/%s"%i)
+        # 爬取范围 1- 2(不包含)
+        for i in range(1, 2):
+            req = scrapy.Request("http://www.xicidaili.com/nn/%s" % i)
             reqs.append(req)
 
         return reqs
@@ -38,4 +39,3 @@ class ProxyIpSpider(scrapy.Spider):
             items.append(item)
 
         return items
-
