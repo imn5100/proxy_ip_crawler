@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from crawler.items import CrawlerItem
 from crawler.sqliteClient.sqliteOperator import Table
 
 
 class IPProxy(Table):
     def __init__(self, data_file):
-        super(IPProxy, self).__init__(data_file, 'dy_proxy',
+        super(IPProxy, self).__init__(data_file, 'proxy_ip',
                                       ['id INTEGER PRIMARY KEY AUTOINCREMENT',
                                        'ip VARCHAR(15) NOT NULL',
                                        'port CHAR(5) NOT NULL',
@@ -53,7 +52,7 @@ class IPProxy(Table):
 
 if __name__ == '__main__':
     #构造方法参数为存储的sqlite文件
-    ipproxy = IPProxy("/Project/mygit/myCrawler/proxy_ip_crawler/ip.dat")
+    ipproxy = IPProxy("/Project/mygit/myCrawler/proxy_ip_crawler/proxy_ip.dat")
     #查询所有代理ip记录
     for data in ipproxy.select_all('*'):
         print (data[1] + ":" + data[2] + " position:" + data[3])
