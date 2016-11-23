@@ -20,9 +20,9 @@ class CrawlerPipeline(object):
         self.file = None
 
     def spider_closed(self, spider):
-        print('spider closed,Release resource');
+        print('spider closed,Release resource')
         if self.dbClient:
-            self.dbClient.disconnect();
+            self.dbClient.disconnect()
         if self.mysql_conn:
             self.mysql_conn.close()
         if self.file:

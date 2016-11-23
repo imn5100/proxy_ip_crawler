@@ -75,5 +75,5 @@ if __name__ == '__main__':
     for data in ipproxy.select_all('*'):
         print (data[1] + ":" + data[2] + " position:" + data[3])
     # 删除sqlite中所有记录
-    # ipproxy.delete_all();
+    # ipproxy.delete_all()
     ipproxy.disconnect()

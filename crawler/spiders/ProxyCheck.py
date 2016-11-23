@@ -32,7 +32,7 @@ class ProxyCheck(threading.Thread):
                 pos = result.find(self.testStr)
 
                 if pos > 1:
-                    proxy['speed'] = timeused;
+                    proxy['speed'] = timeused
                     self.checkedProxyList.append(proxy)
                 else:
                     continue
@@ -45,7 +45,7 @@ class ProxyCheck(threading.Thread):
 
 def checkIpList(ip_list, thread_num):
     filter_list = []
-    ip_list_size = len(ip_list);
+    ip_list_size = len(ip_list)
     checkThreads = []
     if not thread_num or thread_num <= 0:
         thread_num = 20
