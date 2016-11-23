@@ -71,7 +71,7 @@ def checkIpList(ip_list, thread_num):
 if __name__ == '__main__':
     ipproxy = IPProxy("/Project/mygit/myCrawler/proxy_ip_crawler/proxy_ip.dat")
     ip_list = ipproxy.select_all('*')
-    ipproxy.disconnect();
+    ipproxy.disconnect()
     filter_list = checkIpList(ip_list, 10)
     for item in filter_list:
         print(item)

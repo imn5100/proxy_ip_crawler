@@ -69,7 +69,7 @@ class CrawlerPipeline(object):
     def process_item_json(self, item, spider):
         try:
             if not self.file:
-                self.file = codecs.open(spider.settings.get('JSON_FILE'), 'w', encoding='utf-8')
+                self.file = codecs.open(spider.settings.get('JSON_FILE'), 'a', encoding='utf-8')
             line = json.dumps(dict(item), ensure_ascii=False) + "\n"
             self.file.write(line)
         except Exception, e:
