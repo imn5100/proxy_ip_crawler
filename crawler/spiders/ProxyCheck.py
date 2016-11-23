@@ -43,8 +43,10 @@ class ProxyCheck(threading.Thread):
         self.checkProxy()
 
 
-def checkIpList(ip_list, thread_num):
+def checkIpList(ip_list, thread_num=20):
     filter_list = []
+    if len(ip_list) == 0:
+        return filter_list
     ip_list_size = len(ip_list)
     checkThreads = []
     if not thread_num or thread_num <= 0:
