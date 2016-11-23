@@ -16,7 +16,7 @@ NEWSPIDER_MODULE = 'crawler.spiders'
 # 存储模式 mysql || sqlite || json
 SAVE_MODE = 'json'
 # MySQL配置
-MYSQL_CONNECT = {'db': 'test', 'user': 'shaw', 'passwd': 'xlsw%',
+MYSQL_CONNECT = {'db': 'test', 'user': 'shaw', 'passwd': '******%',
                  'host': '127.0.0.1', 'use_unicode': True, 'charset': 'utf8'}
 # sqlite文件配置
 SQLITE_FILE = 'proxy_ip.dat'
