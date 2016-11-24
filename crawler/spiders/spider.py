@@ -2,6 +2,7 @@
 
 import scrapy
 
+from crawler import settings
 from crawler.items import CrawlerItem
 from crawler.util import BloomFilterUtil, ProxyCheck
 
@@ -12,6 +13,7 @@ class ProxyIpSpider(scrapy.Spider):
     start_urls = (
         'http://www.xicidaili.com',
     )
+    bloomFilter = BloomFilterUtil.FileBloomFilter(settings.BLOOM_FILTER_FILE)
 
     def start_requests(self):
         """需爬取的链接"""
@@ -38,5 +40,5 @@ class ProxyIpSpider(scrapy.Spider):
             item['speed'] = tr.xpath('td[7]/div[@class="bar"]/@title').re('\d{0,2}\.\d{0,}')[0]
 
             items.append(item)
-        items = BloomFilterUtil.filter_proxy_ip(items)
+        items = self.bloomFilter.filter_proxy_ip_list(items)
         return ProxyCheck.ProxyCheck.checkIpList(items, 10)

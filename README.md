@@ -1,6 +1,6 @@
 # proxy_ip_crawler
 
-  抓取代理地址的爬虫<br>
+  抓取代理IP的爬虫<br>
   支持存储方式：_Mysql_，_Sqlite_，_Json_<br>
   运行于_Python2.7_<br>
   运行前请先安装 __scrapy__<br>

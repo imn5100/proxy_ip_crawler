@@ -9,7 +9,9 @@ import codecs
 import MySQLdb
 import json
 
+from crawler import settings
 from crawler.sqliteClient.IPProxy import IPProxy
+from crawler.util import BloomFilterUtil
 
 
 class CrawlerPipeline(object):
@@ -18,6 +20,7 @@ class CrawlerPipeline(object):
         self.mysql_conf = ""
         self.mysql_conn = None
         self.file = None
+        self.bloomFilter = BloomFilterUtil.FileBloomFilter(settings.BLOOM_FILTER_FILE)
 
     def spider_closed(self, spider):
         print('spider closed,Release resource')
@@ -27,6 +30,7 @@ class CrawlerPipeline(object):
             self.mysql_conn.close()
         if self.file:
             self.file.close()
+        self.bloomFilter.tofile()
 
     def process_item(self, item, spider):
         save_mode = spider.settings.get("SAVE_MODE")
@@ -36,6 +40,7 @@ class CrawlerPipeline(object):
             self.process_item_sqlite(item, spider)
         else:
             self.process_item_json(item, spider)
+        self.bloomFilter.add_proxy_ip(item)
 
     def process_item_sqlite(self, item, spider):
         try:

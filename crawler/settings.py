@@ -22,6 +22,7 @@ MYSQL_CONNECT = {'db': 'test', 'user': 'username', 'passwd': 'passwd',
 # sqlite文件配置
 SQLITE_FILE = 'proxy_ip.dat'
 JSON_FILE = 'proxy_ip.json'
+BLOOM_FILTER_FILE = 'filter.bloom'
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
