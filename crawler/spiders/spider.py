@@ -15,10 +15,10 @@ class ProxyIpSpider(scrapy.Spider):
     )
 
     def start_requests(self):
-        '''需爬取的链接'''
+        """需爬取的链接"""
         reqs = []
-        # 爬取范围 1- 2(不包含)
-        for i in range(1, 2):
+        # 爬取范围 1- 3(不包含)
+        for i in range(1, 5):
             req = scrapy.Request("http://www.xicidaili.com/nn/%s" % i)
             reqs.append(req)
 

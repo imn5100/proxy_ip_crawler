@@ -19,6 +19,7 @@ def filter_proxy_ip(items):
         for item in items:
             key = item['ip'] + ":" + str(item['port'])
             if key in bf:
+                print (key + " is exited")
                 continue
             else:
                 bf.add(key)

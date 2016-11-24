@@ -27,9 +27,8 @@ class IPProxy(Table):
         cursor.close()
         return IPProxy.convert(results)
 
-    '''当只有一个参数时，默认为插入的是对象，从对象中取值'''
-
     def insert(self, *args):
+        """当只有一个参数时，默认为插入的是对象，从对象中取值"""
         if 1 == len(args):
             item = args[0]
             self.free(super(IPProxy, self).insert(None, item['ip'], item['port'], item['position'], item['http_type'],
