@@ -39,5 +39,5 @@ class ProxyIpSpider(scrapy.Spider):
             item['speed'] = tr.xpath('td[7]/div[@class="bar"]/@title').re('\d{0,2}\.\d{0,}')[0]
 
             items.append(item)
-        # items = BloomFilterUtil.filter_proxy_ip(items)
+        items = BloomFilterUtil.filter_proxy_ip(items)
         return ProxyCheck.checkIpList(items, 10)

@@ -17,19 +17,11 @@ NEWSPIDER_MODULE = 'crawler.spiders'
 # 存储模式 mysql || sqlite || json
 SAVE_MODE = 'sqlite'
 # MySQL配置
-MYSQL_CONNECT = {'db': 'test', 'user': 'shaw', 'passwd': 'xlsw%',
+MYSQL_CONNECT = {'db': 'test', 'user': 'username', 'passwd': 'passwd',
                  'host': '127.0.0.1', 'use_unicode': True, 'charset': 'utf8'}
 # sqlite文件配置
 SQLITE_FILE = 'proxy_ip.dat'
 JSON_FILE = 'proxy_ip.json'
-
-# Override the default request headers:
-DEFAULT_REQUEST_HEADERS = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Connection': 'keep-alive',
-    'Accept-Encoding': 'gzip, deflate',
-}
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
@@ -113,10 +105,13 @@ USER_AGENTS = [
     "Mozilla/5.0 (X11; U; Linux x86_64; zh-CN; rv:1.9.2.10) Gecko/20100922 Ubuntu/10.10 (maverick) Firefox/3.6.10"
 ]
 USER_AGENT = random.choice(USER_AGENTS)
+# Override the default request headers:
+DEFAULT_REQUEST_HEADERS = {
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Connection': 'keep-alive',
+    'Accept-Encoding': 'gzip, deflate',
+}
 # 优化爬虫，防止被禁：每次只能对每个域名发起一次请求且请求之间存在2s延时
 CONCURRENT_REQUESTS_PER_DOMAIN = 1
 DOWNLOAD_DELAY = 2
-
-# simpleCrawler setting
-TIMEOUT = 5
-RETRY_TIME = 3
