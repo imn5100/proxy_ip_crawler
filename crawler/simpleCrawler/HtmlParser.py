@@ -19,10 +19,5 @@ class Html_Parser(object):
                 proxy_ip = {'ip': ip, 'port': port, 'area': area, 'protocal': protocol}
                 datas.append(proxy_ip)
             except Exception, e:
-                print (e)
                 continue
         return datas
-
-
-if __name__ == '__main__':
-    pass

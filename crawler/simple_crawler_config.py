@@ -20,10 +20,11 @@ parserList = [
         'urls': ['http://www.cz88.net/proxy/%s' % m for m in
                  ['index.shtml'] + ['http_%s.shtml' % n for n in range(2, 3)]],
         'position': ".//*[@id='boxright']/div/ul/li[position()>1]",
-        'detail': {'ip': './div[1]', 'port': './div[2]', 'area': './div[4]', 'protocol': ''}
+        'detail': {'ip': './div[1]', 'port': './div[2]', 'area': './div[4]', 'protocol': ''},
+        'encoding': 'utf-8'
     },
     {
-        'urls': ['http://www.kuaidaili.com/proxylist/%s/' % n for n in range(1, 11)],
+        'urls': ['http://www.kuaidaili.com/proxylist/%s/' % n for n in range(1, 3)],
         'position': ".//*[@id='index_free_list']/table/tbody/tr[position()>0]",
         'detail': {'ip': './td[1]', 'port': './td[2]', 'area': './td[5]', 'protocol': './td[4]'}
     },
