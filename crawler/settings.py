@@ -15,9 +15,9 @@ BOT_NAME = 'crawler'
 SPIDER_MODULES = ['crawler.spiders']
 NEWSPIDER_MODULE = 'crawler.spiders'
 # 存储模式 mysql || sqlite || json
-SAVE_MODE = 'json'
+SAVE_MODE = 'sqlite'
 # MySQL配置
-MYSQL_CONNECT = {'db': 'test', 'user': 'shaw', 'passwd': '*****',
+MYSQL_CONNECT = {'db': 'test', 'user': 'shaw', 'passwd': 'xlsw%',
                  'host': '127.0.0.1', 'use_unicode': True, 'charset': 'utf8'}
 # sqlite文件配置
 SQLITE_FILE = 'proxy_ip.dat'
@@ -116,3 +116,7 @@ USER_AGENT = random.choice(USER_AGENTS)
 # 优化爬虫，防止被禁：每次只能对每个域名发起一次请求且请求之间存在2s延时
 CONCURRENT_REQUESTS_PER_DOMAIN = 1
 DOWNLOAD_DELAY = 2
+
+# simpleCrawler setting
+TIMEOUT = 5
+RETRY_TIME = 3

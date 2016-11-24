@@ -52,9 +52,8 @@ class CrawlerPipeline(object):
             self.mysql_conn = MySQLdb.connect(**self.mysql_conf)
         cur = self.mysql_conn.cursor()
         sql = (
-            "insert into proxy_ip(ip,port,http_type,position,speed,connect_time,check_time) values(%s,%s,%s,%s,%s,%s,%s)")
-        item_list = (item['ip'], item['port'], item['http_type'], item['position'], item['speed'], item['connect_time'],
-                     item['check_time'])
+            "insert into proxy_ip(ip,port,protocol,area,speed) values(%s,%s,%s,%s,%s)")
+        item_list = (item['ip'], item['port'], item['protocol'], item['area'], item['speed'])
         try:
             cur.execute(sql, item_list)
         except Exception, e:

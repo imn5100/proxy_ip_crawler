@@ -18,7 +18,7 @@ class ProxyIpSpider(scrapy.Spider):
         """需爬取的链接"""
         reqs = []
         # 爬取范围 1- 3(不包含)
-        for i in range(1, 5):
+        for i in range(1, 2):
             req = scrapy.Request("http://www.xicidaili.com/nn/%s" % i)
             reqs.append(req)
 
@@ -34,12 +34,10 @@ class ProxyIpSpider(scrapy.Spider):
             item = CrawlerItem()
             item['ip'] = tr.xpath('td[2]/text()')[0].extract()
             item['port'] = tr.xpath('td[3]/text()')[0].extract()
-            item['position'] = tr.xpath('string(td[4])')[0].extract().strip()
-            item['http_type'] = tr.xpath('td[6]/text()')[0].extract()
+            item['area'] = tr.xpath('string(td[4])')[0].extract().strip()
+            item['protocol'] = tr.xpath('td[6]/text()')[0].extract()
             item['speed'] = tr.xpath('td[7]/div[@class="bar"]/@title').re('\d{0,2}\.\d{0,}')[0]
-            item['connect_time'] = tr.xpath('td[8]/div[@class="bar"]/@title').re('\d{0,2}\.\d{0,}')[0]
-            item['check_time'] = tr.xpath('td[10]/text()')[0].extract()
 
             items.append(item)
-        items = BloomFilterUtil.filter_proxy_ip(items)
+        # items = BloomFilterUtil.filter_proxy_ip(items)
         return ProxyCheck.checkIpList(items, 10)

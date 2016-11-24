@@ -12,8 +12,6 @@ class CrawlerItem(scrapy.Item):
     # define the fields for your item here like:
     ip = scrapy.Field()
     port = scrapy.Field()
-    position = scrapy.Field()
-    http_type = scrapy.Field()
+    area = scrapy.Field()
+    protocol = scrapy.Field()
     speed = scrapy.Field()
-    connect_time = scrapy.Field()
-    check_time = scrapy.Field()
