@@ -15,7 +15,7 @@ BOT_NAME = 'crawler'
 SPIDER_MODULES = ['crawler.spiders']
 NEWSPIDER_MODULE = 'crawler.spiders'
 # 存储模式 mysql || sqlite || json
-SAVE_MODE = 'sqlite'
+SAVE_MODE = 'json'
 # MySQL配置
 MYSQL_CONNECT = {'db': 'test', 'user': 'username', 'passwd': 'passwd',
                  'host': '127.0.0.1', 'use_unicode': True, 'charset': 'utf8'}

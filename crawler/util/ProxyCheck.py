@@ -4,8 +4,6 @@ import threading
 import urllib2
 import time
 
-from crawler.sqliteClient.IPProxy import IPProxy
-
 
 class ProxyCheck(threading.Thread):
     def __init__(self, proxyList, checkedProxyList):
@@ -42,38 +40,29 @@ class ProxyCheck(threading.Thread):
     def run(self):
         self.checkProxy()
 
-
-def checkIpList(ip_list, thread_num=20):
-    filter_list = []
-    if len(ip_list) == 0:
+    @staticmethod
+    def checkIpList(ip_list, thread_num=20):
+        filter_list = []
+        if len(ip_list) == 0:
+            return filter_list
+        ip_list_size = len(ip_list)
+        checkThreads = []
+        if not thread_num or thread_num <= 0:
+            thread_num = 20
+        if ip_list_size <= thread_num:
+            for i in range(ip_list_size):
+                t = ProxyCheck(ip_list[i], filter_list)
+                checkThreads.append(t)
+        else:
+            size = ip_list_size / thread_num
+            for i in range(thread_num):
+                if i == thread_num - 1:
+                    t = ProxyCheck(ip_list[i * size:], filter_list)
+                else:
+                    t = ProxyCheck(ip_list[i * size: (i + 1) * size], filter_list)
+                checkThreads.append(t)
+        for t in checkThreads:
+            t.start()
+        for t in checkThreads:
+            t.join()
         return filter_list
-    ip_list_size = len(ip_list)
-    checkThreads = []
-    if not thread_num or thread_num <= 0:
-        thread_num = 20
-    if ip_list_size <= thread_num:
-        for i in range(ip_list_size):
-            t = ProxyCheck(ip_list[i], filter_list)
-            checkThreads.append(t)
-    else:
-        size = ip_list_size / thread_num
-        for i in range(thread_num):
-            if i == thread_num - 1:
-                t = ProxyCheck(ip_list[i * size:], filter_list)
-            else:
-                t = ProxyCheck(ip_list[i * size: (i + 1) * size], filter_list)
-            checkThreads.append(t)
-    for t in checkThreads:
-        t.start()
-    for t in checkThreads:
-        t.join()
-    return filter_list
-
-
-if __name__ == '__main__':
-    ipproxy = IPProxy("/Project/mygit/myCrawler/proxy_ip_crawler/proxy_ip.dat")
-    ip_list = ipproxy.select_all('*')
-    ipproxy.disconnect()
-    filter_list = checkIpList(ip_list, 10)
-    for item in filter_list:
-        print(item)

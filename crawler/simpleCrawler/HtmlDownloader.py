@@ -13,7 +13,7 @@ class Html_Downloader(object):
                 r = requests.get(url=url, headers=SIMPLE_CRAWLER_HEADER, timeout=TIMEOUT)
                 r.encoding = encoding
                 print(r.text)
-                if (not r.ok) or len(r.content) < 500:
+                if (not r.ok) or len(r.content) < 300:
                     count += 1
                     continue
                 else:

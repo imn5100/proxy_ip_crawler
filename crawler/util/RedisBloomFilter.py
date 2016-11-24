@@ -1,36 +1,6 @@
 # -*- coding: utf-8 -*-
-import codecs
-import hashlib
-import os
 import redis
-
-from pybloom import BloomFilter
-
-
-def filter_proxy_ip(items):
-    rfile = None
-    try:
-        if not os.path.isfile("proxy_ip.bloom"):
-            bf = BloomFilter(10000, 0.001)
-        else:
-            rfile = codecs.open("proxy_ip.bloom", 'r')
-            bf = BloomFilter.fromfile(rfile)
-        filter_items = []
-        for item in items:
-            key = item['ip'] + ":" + str(item['port'])
-            if key in bf:
-                print (key + " is exited")
-                continue
-            else:
-                bf.add(key)
-                filter_items.append(item)
-        bf.tofile(open('proxy_ip.bloom', 'w+'))
-    except Exception, e:
-        raise e
-    finally:
-        if rfile:
-            rfile.close()
-    return filter_items
+import hashlib
 
 
 class SimpleHash(object):
@@ -66,7 +36,7 @@ class RedisBloomFilter(object):
         if not str_input:
             return False
         ret = True
-
+        str_input = RedisBloomFilter.hexdigestStr(str_input)
         name = self.key + str(int(str_input[0:2], 16) % self.blockNum)
         for f in self.hashfunc:
             loc = f.hash(str_input)
@@ -74,31 +44,20 @@ class RedisBloomFilter(object):
         return ret
 
     def insert(self, str_input):
+        str_input = RedisBloomFilter.hexdigestStr(str_input)
         name = self.key + str(int(str_input[0:2], 16) % self.blockNum)
         for f in self.hashfunc:
             loc = f.hash(str_input)
             self.server.setbit(name, loc, 1)
 
-
-'''
-以下为测试
-'''
-
-
-def test_pybloom():
-    if not os.path.isfile("proxy_ip.bloom"):
-        bf = BloomFilter(10000, 0.001)
-    else:
-        rwfile = codecs.open("proxy_ip.bloom", 'r')
-        bf = BloomFilter.fromfile(rwfile)
-    for i in range(20, 40, 2):
-        bf.add(i)
-    for i in range(25):
-        print(i in bf)
-    bf.tofile(open('proxy_ip.bloom', 'w+'))
+    @classmethod
+    def hexdigestStr(cls, val):
+        fp = hashlib.sha1()
+        fp.update(val)
+        return fp.hexdigest()
 
 
-def test_redis_bloom():
+if __name__ == '__main__':
     rconn = redis.Redis('127.0.0.1', 6379)
     bf = RedisBloomFilter(rconn, 'spider_1:dupefilter')
     url = b"https://shawblog.me"
@@ -109,7 +68,3 @@ def test_redis_bloom():
     else:
         bf.insert(fp.hexdigest())
         print 'not exist!'
-
-
-if __name__ == '__main__':
-    test_redis_bloom()
