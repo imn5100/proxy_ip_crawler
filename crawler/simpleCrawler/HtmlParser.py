@@ -2,7 +2,7 @@
 from lxml import etree
 
 
-class Html_Parser(object):
+class HtmlParser(object):
     @classmethod
     def parse(cls, response, parser):
         datas = []

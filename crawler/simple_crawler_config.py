@@ -21,7 +21,7 @@ parserList = [
                  ['index.shtml'] + ['http_%s.shtml' % n for n in range(2, 3)]],
         'position': ".//*[@id='boxright']/div/ul/li[position()>1]",
         'detail': {'ip': './div[1]', 'port': './div[2]', 'area': './div[4]', 'protocol': ''},
-        'encoding': 'utf-8'
+        'encoding': 'GBK'
     },
     {
         'urls': ['http://www.kuaidaili.com/proxylist/%s/' % n for n in range(1, 3)],
