@@ -15,5 +15,4 @@ if __name__ == '__main__':
         t.start()
     for t in crawler_list:
         t.join()
-    for item in items:
-        print(item)
+    print(len(items))

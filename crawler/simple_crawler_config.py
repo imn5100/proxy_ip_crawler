@@ -32,6 +32,8 @@ parserList = [
         'urls': ['http://www.kuaidaili.com/free/%s/%s/' % (m, n) for m in ['inha', 'intr', 'outha', 'outtr'] for n in
                  range(1, 3)],
         'position': ".//*[@id='list']/table/tbody/tr[position()>0]",
-        'detail': {'ip': './td[1]', 'port': './td[2]', 'area': './td[5]', 'protocol': './td[4]'}
+        'detail': {'ip': './td[1]', 'port': './td[2]', 'area': './td[5]', 'protocol': './td[4]'},
+        # 需要延迟请求的url 延迟步伐。延迟步伐越大每次请求延迟间隔越长。需要根据网站调整
+        'delayStep': 1
     }
 ]
