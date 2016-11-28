@@ -11,10 +11,12 @@ class Launcher(object):
             from crawler.util.RedisBloomFilter import RedisBloomFilter
             rconn = redis.Redis('127.0.0.1', 6379)
             self.bf = RedisBloomFilter(rconn, 'simple_crawler:bloom_filter')
-        else:
+        elif "pybloom" == simple_crawler_config.BLOOM_FILTER_MODE.lower():
             # 默认使用过滤 pybloom
             from crawler.util import BloomFilterUtil
             self.bf = BloomFilterUtil.FileBloomFilter(simple_crawler_config.BLOOM_FILTER_FILE)
+        else:
+            self.bf = None
 
     def start_crawler(self):
         parserList = simple_crawler_config.parserList
@@ -29,10 +31,14 @@ class Launcher(object):
             t.start()
         for t in crawler_list:
             t.join()
-        filter_item = self.bf.filter_proxy_ip_list(items)
-        items = ProxyCheck.checkIpList(items, 30)
-        self.save_items(filter_item)
-        self.bf.add_proxy_ip_all(filter_item)
+        if self.bf:
+            filter_item = self.bf.filter_proxy_ip_list(items)
+            # filter_item = ProxyCheck.checkIpList(filter_item, 30)
+            self.save_items(filter_item)
+            self.bf.add_proxy_ip_all(filter_item)
+        else:
+            filter_item = ProxyCheck.checkIpList(items, 30)
+            self.save_items(filter_item)
         return filter_item
 
     def save_items(self, items):
@@ -54,7 +60,7 @@ class Launcher(object):
                 line = json.dumps(dict(item), ensure_ascii=False) + "\n"
                 file.write(line)
         except Exception, e:
-            print "write json file  error:", e
+            raise e
         finally:
             file.close()
 
@@ -65,7 +71,6 @@ class Launcher(object):
             for item in items:
                 dbClient.insert(item)
         except Exception, e:
-            print "Insert error:", e
             raise e
         finally:
             dbClient.disconnect()
@@ -85,7 +90,7 @@ class Launcher(object):
             cur.executemany(sql, args)
             mysql_conn.commit()
         except Exception, e:
-            print "Insert error:", e
+            raise e
             mysql_conn.rollback()
         finally:
             cur.close()

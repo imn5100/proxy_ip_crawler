@@ -10,7 +10,7 @@ class FileBloomFilter(object):
         self.rfile = None
         self.is_tofile = False
         if not os.path.isfile(path):
-            self.bf = BloomFilter(10000, 0.001)
+            self.bf = BloomFilter(100000, 0.001)
         else:
             self.rfile = open(path, 'r')
             self.bf = BloomFilter.fromfile(self.rfile)
@@ -22,10 +22,11 @@ class FileBloomFilter(object):
             self.rfile.close()
 
     def tofile(self):
-        wfile = open(self.path, 'w+')
-        self.bf.tofile(wfile)
-        wfile.close()
-        self.is_tofile = True
+        if self.bf:
+            wfile = open(self.path, 'w+')
+            self.bf.tofile(wfile)
+            wfile.close()
+            self.is_tofile = True
 
     def have(self, item):
         key = item['ip'] + ":" + str(item['port'])
@@ -49,7 +50,6 @@ class FileBloomFilter(object):
     def add_proxy_ip_all(self, items):
         for item in items:
             self.add_proxy_ip(item)
-
 
 # if __name__ == '__main__':
 #     item = {}

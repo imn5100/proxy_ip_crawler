@@ -16,7 +16,7 @@ class HtmlParser(object):
                 protocol = ''
                 if len(parser['detail']['protocol']) > 0:
                     protocol = tr.xpath(parser['detail']['protocol'])[0].text
-                proxy_ip = {'ip': ip, 'port': port, 'area': area, 'protocal': protocol}
+                proxy_ip = {'ip': ip, 'port': port, 'area': area, 'protocol': protocol, 'speed': '-1'}
                 datas.append(proxy_ip)
             except Exception, e:
                 continue
