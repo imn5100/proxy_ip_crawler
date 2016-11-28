@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import threading
-import urllib2
 import time
 
 
 class ProxyCheck(threading.Thread):
-    def __init__(self, proxyList, checkedProxyList):
+    def __init__(self, proxyList, checkedProxyList, check_by_requests=True):
         threading.Thread.__init__(self)
         self.checkedProxyList = checkedProxyList
         self.proxyList = proxyList
@@ -14,8 +13,10 @@ class ProxyCheck(threading.Thread):
         self.testUrl = "http://www.baidu.com/"
         # 百度ICP证,能正常获取说明代理网络连接成功
         self.testStr = "030173"
+        self.check_by_requests = check_by_requests
 
     def checkProxy(self):
+        import urllib2
         cookies = urllib2.HTTPCookieProcessor()
         for proxy in self.proxyList:
             proxyHandler = urllib2.ProxyHandler({"http": r'http://%s:%s' % (proxy['ip'], proxy['port'])})
@@ -37,8 +38,34 @@ class ProxyCheck(threading.Thread):
             except Exception, e:
                 continue
 
+    def checkProxyByRequests(self):
+        import requests
+        session = requests.Session()
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36"}
+        for proxy in self.proxyList:
+            proxies = {
+                "http": r"http://%s:%s" % (proxy['ip'], proxy['port'])
+            }
+            t1 = time.time()
+            try:
+                r = session.get(self.testUrl, headers=headers, proxies=proxies, timeout=self.timeout)
+                time_used = time.time() - t1
+                result = r.content
+                pos = result.find(self.testStr)
+                if pos > 1:
+                    proxy['speed'] = time_used
+                    self.checkedProxyList.append(proxy)
+                else:
+                    continue
+            except Exception:
+                continue
+
     def run(self):
-        self.checkProxy()
+        if self.check_by_requests:
+            self.checkProxyByRequests()
+        else:
+            self.checkProxy()
 
     @staticmethod
     def checkIpList(ip_list, thread_num=20):
