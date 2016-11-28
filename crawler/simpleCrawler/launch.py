@@ -12,10 +12,10 @@ class Launcher(object):
             rconn = redis.Redis('127.0.0.1', 6379)
             self.bf = RedisBloomFilter(rconn, 'simple_crawler:bloom_filter')
         elif "pybloom" == simple_crawler_config.BLOOM_FILTER_MODE.lower():
-            # 默认使用过滤 pybloom
             from crawler.util import BloomFilterUtil
             self.bf = BloomFilterUtil.FileBloomFilter(simple_crawler_config.BLOOM_FILTER_FILE)
         else:
+            # 默认不使用过滤
             self.bf = None
 
     def start_crawler(self):
@@ -33,7 +33,7 @@ class Launcher(object):
             t.join()
         if self.bf:
             filter_item = self.bf.filter_proxy_ip_list(items)
-            # filter_item = ProxyCheck.checkIpList(filter_item, 30)
+            filter_item = ProxyCheck.checkIpList(filter_item, 30)
             self.save_items(filter_item)
             self.bf.add_proxy_ip_all(filter_item)
         else:
