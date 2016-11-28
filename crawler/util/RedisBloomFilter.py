@@ -56,15 +56,29 @@ class RedisBloomFilter(object):
         fp.update(val)
         return fp.hexdigest()
 
+    @classmethod
+    def get_key(cls, item):
+        return "%s:%s" % (item['ip'], str(item['port']))
+
+    def filter_proxy_ip_list(self, items):
+        filter_items = []
+        for item in items:
+            key = RedisBloomFilter.get_key(item)
+            if not self.isContains(key):
+                filter_items.append(item)
+        return filter_items
+
+    def add_proxy_ip_all(self, items):
+        for item in items:
+            self.insert(RedisBloomFilter.get_key(item))
+
 
 if __name__ == '__main__':
     rconn = redis.Redis('127.0.0.1', 6379)
     bf = RedisBloomFilter(rconn, 'spider_1:dupefilter')
-    url = b"https://shawblog.me"
-    fp = hashlib.sha1()
-    fp.update(url)
-    if bf.isContains(fp.hexdigest()):
+    url = "https://shawblog.me"
+    if bf.isContains(url):
         print 'exist!'
     else:
-        bf.insert(fp.hexdigest())
+        bf.insert(url)
         print 'not exist!'

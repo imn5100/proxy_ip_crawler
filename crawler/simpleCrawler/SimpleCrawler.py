@@ -32,7 +32,7 @@ class SimpleCrawler(threading.Thread):
                 response_text = HtmlDownloader.HtmlDownloader.download(self.url)
             if response_text:
                 datas = HtmlParser.HtmlParser.parse(response_text, self.parser)
-                if len(datas):
+                if len(datas) > 0:
                     self.item_list.extend(datas)
                     print(self.url + "  end")
                 else:
