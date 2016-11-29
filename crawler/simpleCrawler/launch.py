@@ -31,12 +31,18 @@ class Launcher(object):
             t.start()
         for t in crawler_list:
             t.join()
+        # 如果启用了bloomFilter
         if self.bf:
+            # bloomFilter过滤已抓取代理ip
             filter_item = self.bf.filter_proxy_ip_list(items)
-            # filter_item = ProxyCheck.checkIpList(filter_item, 30)
+            # 过滤不可用代理ip 因为需要联网验证，需要一定时间，开启合理数目的多线程可减少时间消耗
+            filter_item = ProxyCheck.checkIpList(filter_item, 30)
+            # 保存代理ip
             self.save_items(filter_item)
+            # 保存成功的数据 在bloomfilter加标记
             self.bf.add_proxy_ip_all(filter_item)
         else:
+            # 未启用bloomFilter
             filter_item = ProxyCheck.checkIpList(items, 30)
             self.save_items(filter_item)
         return filter_item
