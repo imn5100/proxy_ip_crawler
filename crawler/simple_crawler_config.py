@@ -10,7 +10,7 @@ SAVE_MODE = 'json'
 # bloom 过滤模式 pybloom (需要安装pybloom库)|redisbloom(需要本机安装redis数据库和python redis扩展库)
 BLOOM_FILTER_MODE = "pybloom"
 # MySQL配置
-MYSQL_CONNECT = {'db': 'test', 'user': 'username', 'passwd': 'passwd%',
+MYSQL_CONNECT = {'db': 'test', 'user': 'username', 'passwd': 'passwd',
                  'host': '127.0.0.1', 'use_unicode': True, 'charset': 'utf8'}
 # sqlite文件配置
 SQLITE_FILE = 'proxy_ip.dat'
@@ -34,7 +34,8 @@ parserList = [
         # 数据表格所在位置 xpath
         'position': ".//*[@id='ip_list']/tr[position()>1]",
         # 详细数据获取xpath表达式
-        'detail': {'ip': './td[2]', 'port': './td[3]', 'area': './td[4]/a', 'protocol': './td[6]'}
+        'detail': {'ip': './td[2]', 'port': './td[3]', 'area': './td[4]/a', 'protocol': './td[6]'},
+        'delayStep': 1
     },
     {
         'urls': ['http://www.cz88.net/proxy/%s' % m for m in
