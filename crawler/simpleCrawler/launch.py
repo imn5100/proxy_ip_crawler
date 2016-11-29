@@ -33,7 +33,7 @@ class Launcher(object):
             t.join()
         if self.bf:
             filter_item = self.bf.filter_proxy_ip_list(items)
-            filter_item = ProxyCheck.checkIpList(filter_item, 30)
+            # filter_item = ProxyCheck.checkIpList(filter_item, 30)
             self.save_items(filter_item)
             self.bf.add_proxy_ip_all(filter_item)
         else:
@@ -68,8 +68,7 @@ class Launcher(object):
         from crawler.sqliteClient.IPProxy import IPProxy
         try:
             dbClient = IPProxy(simple_crawler_config.SQLITE_FILE)
-            for item in items:
-                dbClient.insert(item)
+            dbClient.insertMany(items)
         except Exception, e:
             raise e
         finally:
@@ -95,7 +94,3 @@ class Launcher(object):
         finally:
             cur.close()
             mysql_conn.close()
-
-
-if __name__ == '__main__':
-    Launcher().start_crawler()

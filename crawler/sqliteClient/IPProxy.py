@@ -46,6 +46,22 @@ class IPProxy(Table):
     def drop(self):
         self.free(super(IPProxy, self).drop())
 
+    def insertMany(self, items):
+        cursor = self.db.cursor()
+        sql = "INSERT INTO %s VALUES(%s)" % ("proxy_ip", ",".join("?" * 6))
+        try:
+            args = []
+            for item in items:
+                item_list = (None, item['ip'], item['port'], item['protocol'], item['area'], item['speed'])
+                args.append(item_list)
+            cursor.executemany(sql, args)
+            self.db.commit()
+        except Exception, e:
+            raise e
+        finally:
+            cursor.close()
+        return cursor
+
     @staticmethod
     def convert(result):
         ip_list = []
@@ -61,10 +77,7 @@ class IPProxy(Table):
 
 
 if __name__ == '__main__':
-    # 构造方法参数为存储的sqlite文件
-    ipproxy = IPProxy("/Project/mygit/myCrawler/proxy_ip_crawler/proxy_ip.dat")
-    # 查询所有代理ip记录
-    print(ipproxy.select_all('*'))
-    # 删除sqlite中所有记录
-    # ipproxy.delete_all()
-    ipproxy.disconnect()
+    ipproxy2 = IPProxy("/Project/mygit/myCrawler/proxy_ip_crawler/proxy_ip.dat")
+    items = ipproxy2.select_all('*')
+    for item in items:
+        print(item)
