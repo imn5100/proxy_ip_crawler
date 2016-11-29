@@ -18,7 +18,8 @@
   依赖模块：__[requests](https://github.com/kennethreitz/requests "requests")__，__[lxml](http://lxml.de/ "lxml")__，__[redis](https://pypi.python.org/pypi/redis/ "redis")__或__[pybloom](https://github.com/jaybaird/python-bloomfilter/ "pybloom")__ ，可选模块:mysql<br>
   运行配置：simple_crawler_config.py<br>
   
-      cd 'simpleCrawler root path'
+      cd 'project root path'
+      cd 'crawler/simpleCrawler/'
       python launch.py
 
 
