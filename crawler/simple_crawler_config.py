@@ -37,25 +37,25 @@ parserList = [
         'detail': {'ip': './td[2]', 'port': './td[3]', 'area': './td[4]/a', 'protocol': './td[6]'},
         'delayStep': 1
     },
-    # {
-    #     'urls': ['http://www.cz88.net/proxy/%s' % m for m in
-    #              ['index.shtml'] + ['http_%s.shtml' % n for n in range(2, 3)]],
-    #     'position': ".//*[@id='boxright']/div/ul/li[position()>1]",
-    #     'detail': {'ip': './div[1]', 'port': './div[2]', 'area': './div[4]', 'protocol': ''},
-    #     # 某些网站需要指定编码 防止乱码 默认utf-8
-    #     'encoding': 'GBK'
-    # },
-    # {
-    #     'urls': ['http://www.kuaidaili.com/proxylist/%s/' % n for n in range(1, 3)],
-    #     'position': ".//*[@id='index_free_list']/table/tbody/tr[position()>0]",
-    #     'detail': {'ip': './td[1]', 'port': './td[2]', 'area': './td[5]', 'protocol': './td[4]'}
-    # },
-    # {
-    #     'urls': ['http://www.kuaidaili.com/free/%s/%s/' % (m, n) for m in ['inha', 'intr', 'outha', 'outtr'] for n in
-    #              range(1, 3)],
-    #     'position': ".//*[@id='list']/table/tbody/tr[position()>0]",
-    #     'detail': {'ip': './td[1]', 'port': './td[2]', 'area': './td[5]', 'protocol': './td[4]'},
-    #     # 延迟步伐。延迟步伐越大每次请求延迟间隔越长。某些网站限制一定时间内的请求数，所以需要设置延迟
-    #     'delayStep': 1
-    # }
+    {
+        'urls': ['http://www.cz88.net/proxy/%s' % m for m in
+                 ['index.shtml'] + ['http_%s.shtml' % n for n in range(2, 3)]],
+        'position': ".//*[@id='boxright']/div/ul/li[position()>1]",
+        'detail': {'ip': './div[1]', 'port': './div[2]', 'area': './div[4]', 'protocol': ''},
+        # 某些网站需要指定编码 防止乱码 默认utf-8
+        'encoding': 'GBK'
+    },
+    {
+        'urls': ['http://www.kuaidaili.com/proxylist/%s/' % n for n in range(1, 3)],
+        'position': ".//*[@id='index_free_list']/table/tbody/tr[position()>0]",
+        'detail': {'ip': './td[1]', 'port': './td[2]', 'area': './td[5]', 'protocol': './td[4]'}
+    },
+    {
+        'urls': ['http://www.kuaidaili.com/free/%s/%s/' % (m, n) for m in ['inha', 'intr', 'outha', 'outtr'] for n in
+                 range(1, 3)],
+        'position': ".//*[@id='list']/table/tbody/tr[position()>0]",
+        'detail': {'ip': './td[1]', 'port': './td[2]', 'area': './td[5]', 'protocol': './td[4]'},
+        # 延迟步伐。延迟步伐越大每次请求延迟间隔越长。某些网站限制一定时间内的请求数，所以需要设置延迟
+        'delayStep': 1
+    }
 ]
