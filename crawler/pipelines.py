@@ -15,13 +15,14 @@ from crawler.util import BloomFilterUtil
 
 
 class CrawlerPipeline(object):
+    #初始化管道
     def __init__(self):
         self.dbClient = None
         self.mysql_conf = ""
         self.mysql_conn = None
         self.file = None
         self.bloomFilter = BloomFilterUtil.FileBloomFilter(settings.BLOOM_FILTER_FILE)
-
+    #爬虫关闭时，执行关闭相关资源
     def spider_closed(self, spider):
         print('spider closed,Release resource')
         if self.dbClient:
@@ -31,7 +32,7 @@ class CrawlerPipeline(object):
         if self.file:
             self.file.close()
         self.bloomFilter.tofile()
-
+    #存储方法
     def process_item(self, item, spider):
         save_mode = spider.settings.get("SAVE_MODE")
         if save_mode == 'mysql':
@@ -41,7 +42,7 @@ class CrawlerPipeline(object):
         else:
             self.process_item_json(item, spider)
         self.bloomFilter.add_proxy_ip(item)
-
+    #存储到sqlite
     def process_item_sqlite(self, item, spider):
         try:
             if not self.dbClient:
@@ -50,7 +51,7 @@ class CrawlerPipeline(object):
         except Exception, e:
             print "Insert error:", e
         return item
-
+    #存储到mysql
     def process_item_mysql(self, item, spider):
         if self.mysql_conf == "" or not self.mysql_conn:
             self.mysql_conf = spider.settings.get('MYSQL_CONNECT')
@@ -69,7 +70,7 @@ class CrawlerPipeline(object):
         finally:
             cur.close()
         return item
-
+    #存储到json文件
     def process_item_json(self, item, spider):
         try:
             if not self.file:
